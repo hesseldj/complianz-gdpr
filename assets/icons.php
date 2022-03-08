@@ -2,7 +2,6 @@
 
 /**
  * Get icon from predefined list
- * https://material.io/resources/icons/?search=sync&icon=sync_disabled&style=outline
  * @param string $icon_name
  * @param string $status
  * @param string $tooltip (optional)

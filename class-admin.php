@@ -275,7 +275,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function plugin_update_message($plugin_data, $response){
 			if ( strpos($response->slug , 'complianz') !==false && $response->new_version === '6.0.0' ) {
-				echo '<br><b>' . '&nbsp'.sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
+				echo '<br><b>' . '&nbsp'.cmplz_sprintf(__("Important: Please %sread about%s Complianz 6.0 before updating. This is a major release and includes changes and new features that might need your attention.").'</b>','<a target="_blank" href="https://complianz.io/upgrade-to-complianz-6-0/">','</a>');
 			}
 		}
 
@@ -460,7 +460,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 
 				$dismissed_warnings = get_option('cmplz_dismissed_warnings', array() );
 				foreach ( $warning_types as $id => $warning ) {
-					if ( in_array( $id, $dismissed_warnings) ) {
+					if ( in_array( sanitize_title($id), $dismissed_warnings) ) {
 						continue;
 					}
 
@@ -672,11 +672,10 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'plus_ones' => true,
 			) );
 			$warning_count = count( $warnings );
-			$warning_title = esc_attr( sprintf( '%d plugin warnings', $warning_count ) );
-			$menu_label    = sprintf( __( 'Complianz %s', 'complianz-gdpr' ),
+			$warning_title = esc_attr( cmplz_sprintf( '%s plugin warnings', $warning_count ) );
+			$menu_label    = cmplz_sprintf( __( 'Complianz %s', 'complianz-gdpr' ),
 				"<span class='update-plugins count-$warning_count' title='$warning_title'><span class='update-count'>"
 				. number_format_i18n( $warning_count ) . "</span></span>" );
-
 
 			global $cmplz_admin_page;
 			$cmplz_admin_page = add_menu_page(
@@ -744,14 +743,12 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 		 */
 		public function wizard_page() {
 			?>
-			<div class="wrap">
 				<?php if ( apply_filters( 'cmplz_show_wizard_page', true ) ) {
 					COMPLIANZ::$wizard->wizard( 'wizard' );
 				} else {
 					$link = '<a href="'.add_query_arg(array('page'=>'cmplz-settings#license'), admin_url('admin.php')).'">';
-					cmplz_admin_notice( sprintf(__( 'Your license needs to be %sactivated%s to unlock the wizard', 'complianz-gdpr' ), $link, '</a>' ));
+					cmplz_admin_notice( cmplz_sprintf(__( 'Your license needs to be %sactivated%s to unlock the wizard', 'complianz-gdpr' ), $link, '</a>' ));
 				} ?>
-			</div>
 			<?php
 		}
 
@@ -771,7 +768,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 				$status = __("Installed", "complianz-gdpr");
 			} elseif (defined($item['constant_free']) && !defined($item['constant_premium'])) {
 				$link = $item['website'];
-				$text = __('Upgrade to pro', 'complianz-gdpr');
+				$text = __('Upgrade to Pro', 'complianz-gdpr');
 				$status = "<a href=$link>$text</a>";
 			}
 			return $status;
@@ -787,24 +784,24 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					'cache' => false,
 					'status' => array('urgent', 'open'),
 					) ) );
-			$tasks = '<span class="cmplz-task active" href="'.add_query_arg( array('page' => 'complianz'), admin_url('admin.php') ).'">'
-					. sprintf(__("All tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-count cmplz-all">'.$all_count.'</span>')
-					. '</span><span class="cmplz-task" href="'.add_query_arg( array('page' => 'complianz', 'cmplz-status' => 'remaining'), admin_url('admin.php') ).'">'
-					. sprintf(__("Remaining tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-count cmplz-remaining">'.$remaining_count .'</span>')
-					. '</span>';
+			$tasks = '<div class="cmplz-task-switcher-container"><span class="cmplz-task-switcher active" href="'.add_query_arg( array('page' => 'complianz'), admin_url('admin.php') ).'">'
+					. sprintf(__("All tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-switcher-count cmplz-all">'.$all_count.'</span>')
+					. '</span><span class="cmplz-task-switcher" href="'.add_query_arg( array('page' => 'complianz', 'cmplz-status' => 'remaining'), admin_url('admin.php') ).'">'
+					. sprintf(__("Remaining tasks (%s)", "complianz-gdpr"), '<span class="cmplz-task-switcher-count cmplz-remaining">'.$remaining_count .'</span>')
+					. '</span></div>';
 			$grid_items =
 				array(
 					array(
                         'name'  => 'progress',
                         'header' => __("Your progress", "complianz-gdpr"),
-						'class' => '',
+						'class' => 'column-2 row-2',
 						'page' => 'dashboard',
 						'controls' => $tasks,
 					),
 					array(
                         'name'  => 'documents',
                         'header' => __("Documents", "complianz-gdpr"),
-						'class' => 'small',
+						'class' => 'row-2',
 						'page' => 'dashboard',
 						'controls' => __("Last update", "complianz-gdpr"),
 					),
@@ -812,7 +809,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					array(
                         'name'  => 'tools',
                         'header' => __("Tools", "complianz-gdpr"),
-						'class' => 'small',
+						'class' => 'row-2',
 						'page' => 'dashboard',
 						'controls' => '',
 					),
@@ -820,7 +817,7 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					array(
 							'name'  => 'tips-tricks',
 							'header' => __("Tips & Tricks", "complianz-gdpr"),
-							'class' => 'half-height',
+							'class' => 'column-2',
 							'page' => 'dashboard',
 							'controls' => '',
 					),
@@ -828,11 +825,9 @@ if ( ! class_exists( "cmplz_admin" ) ) {
 					array(
 						'name'  => 'other-plugins',
 						'header' => __("Other plugins", "complianz-gdpr"),
-						'class' => 'half-height',
+						'class' => 'column-2 no-border no-background',
 						'page' => 'dashboard',
-						'controls' => '<a href="https://really-simple-plugins.com/" target="_blank">
-										<img src="'.cmplz_url.'/assets/images/really-simple-plugins.svg" alt="Really Simple Plugins">
-										</a>',
+							'controls' => '<div class="rsp-logo"><a href="https://really-simple-plugins.com/"><img src="' . trailingslashit(cmplz_url) . 'assets/images/really-simple-plugins.svg" alt="Really Simple Plugins" /></a></div>',
 					),
 
 				);

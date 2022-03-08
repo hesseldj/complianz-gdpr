@@ -483,7 +483,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			}
 
 			if ( ! cmplz_has_region( $region ) || ! isset( COMPLIANZ::$config->pages[ $region ][ $type ] ) ) {
-				return sprintf( __( 'Region %s not activated for %s.', 'complianz-gdpr' ), strtoupper( $region ), $type );
+				return cmplz_sprintf( __( 'Region %s not activated for %s.', 'complianz-gdpr' ), strtoupper( $region ), $type );
 			}
 
 			$elements         = COMPLIANZ::$config->pages[ $region ][ $type ]["document_elements"];
@@ -730,7 +730,10 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			                                      . '"' : '';
 
 			if (isset($element['p']) && !$element['p']) {
-				return $content.'&nbsp;';
+				if (substr($content, -4) !== '</p>'){
+					$content .= '&nbsp;';
+				}
+				return $content;
 			}
 			return "<p $class>" . $content . "</p>";
 		}
@@ -754,13 +757,13 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			//replace references
 			foreach ( $paragraph_id_arr as $id => $paragraph ) {
 				$html = str_replace( "[article-$id]",
-					sprintf( __( '(See paragraph %s)', 'complianz-gdpr' ),
+					 cmplz_sprintf( __( '(See paragraph %s)', 'complianz-gdpr' ),
 						esc_html( $paragraph['main'] ) ), $html );
 			}
 
 			foreach ( $annex_arr as $id => $annex ) {
 				$html = str_replace( "[annex-$id]",
-					sprintf( __( '(See annex %s)', 'complianz-gdpr' ),
+					 cmplz_sprintf( __( '(See annex %s)', 'complianz-gdpr' ),
 						esc_html( $annex ) ), $html );
 			}
 
@@ -807,7 +810,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$contact_dpo = cmplz_get_value( 'email_dpo' );
 			$phone_dpo   = cmplz_get_value( 'phone_dpo' );
 			if ( strlen( $phone_dpo ) !== 0 ) {
-				$contact_dpo .= " " . sprintf( _x( "or by telephone on %s",
+				$contact_dpo .= " " . cmplz_sprintf( _x( "or by telephone on %s",
 						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"', "complianz-gdpr" ), $phone_dpo );
 			}
 			$html = str_replace( "[email_dpo]", $contact_dpo, $html );
@@ -815,7 +818,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$contact_dpo_uk = cmplz_get_value( 'email_dpo_uk' );
 			$phone_dpo_uk   = cmplz_get_value( 'phone_dpo_uk' );
 			if ( strlen( $phone_dpo ) !== 0 ) {
-				$contact_dpo_uk .= " " . sprintf( _x( "or by telephone on %s",
+				$contact_dpo_uk .= " " . cmplz_sprintf( _x( "or by telephone on %s",
 						'if phonenumber is entered, this string is part of the sentence "you may contact %s, via %s or by telephone via %s"', "complianz-gdpr" ), $phone_dpo_uk );
 			}
 			$html = str_replace( "[email_dpo_uk]", $contact_dpo_uk, $html );
@@ -1018,7 +1021,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			.'&nbsp;'
 			. __( "This service does not process any personally identifiable information and does not share any data with the service provider.", 'complianz-gdpr' )
 			.'&nbsp;'
-			 .sprintf(
+			 . cmplz_sprintf(
 					__( "For more information, see the Complianz %sPrivacy Statement%s.", 'complianz-gdpr' ),
 					'<a href="https://complianz.io/legal/privacy-statement/">',
 					'</a>'
@@ -1147,14 +1150,14 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$headers = array();
 				if ( empty( $subject ) ) {
 					$subject
-						= sprintf( _x( 'Your legal documents on %s need to be updated.',
+						= cmplz_sprintf( _x( 'Your legal documents on %s need to be updated.',
 						'Subject in notification email', 'complianz-gdpr' ),
 						home_url() );
 				}
 				$link = '<a href="'.add_query_arg( array('page' => 'cmplz-wizard'), admin_url('admin.php?page=cmplz-wizard') ).'">';
 
 				$message
-					= sprintf( _x( 'Your legal documents on %s have not been updated in 12 months. Please log in and run the %swizard%s in the Complianz plugin to check if everything is up to date.',
+					= cmplz_sprintf( _x( 'Your legal documents on %s have not been updated in 12 months. Please log in and run the %swizard%s in the Complianz plugin to check if everything is up to date.',
 					'notification email', 'complianz-gdpr' ),
 					home_url(), $link, "</a>" );
 
@@ -1226,7 +1229,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			// override default attributes with user attributes
 			$atts = shortcode_atts( array( 'text' => false ), $atts, $tag );
 
-			$accept_text = $atts['text'] ?: apply_filters( 'cmplz_accept_cookies_blocked_content', cmplz_get_value( 'blocked_content_text' ) );
+			$accept_text = $atts['text'] ?: __("Click to accept marketing cookies", "complianz-gdpr");
 			$html = '<div class="cmplz-custom-accept-btn cmplz-accept"><a href="#">' . $accept_text . '</a></div>';
 			echo $html;
 
@@ -1510,15 +1513,12 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 		public function obfuscate_email( $email ) {
 			$alwaysEncode = array( '.', ':', '@' );
-
 			$result = '';
-
+			$email = strrev($email);
 			// Encode string using oct and hex character codes
 			for ( $i = 0; $i < strlen( $email ); $i ++ ) {
 				// Encode 25% of characters including several that always should be encoded
-				if ( in_array( $email[ $i ], $alwaysEncode )
-				     || mt_rand( 1, 100 ) < 25
-				) {
+				if ( in_array( $email[ $i ], $alwaysEncode ) || mt_rand( 1, 100 ) < 25 ) {
 					if ( mt_rand( 0, 1 ) ) {
 						$result .= '&#' . ord( $email[ $i ] ) . ';';
 					} else {
@@ -1528,12 +1528,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 					$result .= $email[ $i ];
 				}
 			}
-
-			//make clickable
-
-			$result = '<a href="mailto:'.$result.'">'.$result.'</a>';
-
-			return $result;
+			return '<span class="cmplz-obfuscate" >'.$result.'</span>';
 		}
 
 
@@ -1757,7 +1752,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 
 			$link = '<a href="' . admin_url( 'nav-menus.php' ) . '">';
 			if ( empty( $menus ) ) {
-				cmplz_notice( sprintf( __( "No menus were found. Skip this step, or %screate a menu%s first." ), $link, '</a>' ) );
+				cmplz_notice( cmplz_sprintf( __( "No menus were found. Skip this step, or %screate a menu%s first." ), $link, '</a>' ) );
 				return;
 			}
 
@@ -1817,7 +1812,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			$mapping_array = COMPLIANZ::$config->generic_documents_list;
 			$link = '<a href="' . admin_url( 'nav-menus.php' ) . '">';
 			if ( empty( $menus ) ) {
-				cmplz_notice( sprintf( __( "No menus were found. Skip this step, or %screate a menu%s first." ), $link, '</a>' ) );
+				cmplz_notice( cmplz_sprintf( __( "No menus were found. Skip this step, or %screate a menu%s first." ), $link, '</a>' ) );
 				return;
 			}
 			$page_types = $this->get_created_pages( false, true );
@@ -2827,9 +2822,8 @@ if ( ! class_exists( "cmplz_document" ) ) {
 			} else if ( cmplz_get_value( $type ) === 'custom' ) {
 				$id = get_option( "cmplz_" . $type . "_custom_page" );
 				//get correct translated id
-				$id = apply_filters( 'wpml_object_id', $id,
-					'page', true, substr( get_locale(), 0, 2 ) );
-				return intval( $id ) == 0
+				$id = apply_filters( 'wpml_object_id', $id, 'page', true, substr( get_locale(), 0, 2 ) );
+				return intval( $id ) == 0 || !get_permalink( $id )
 					? '#'
 					: esc_url_raw( get_permalink( $id ) );
 			} else if ( cmplz_get_value( $type ) === 'url' ) {
@@ -2839,8 +2833,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$policy_page_id = $this->get_shortcode_page_id( $type, $region );
 
 				//get correct translated id
-				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id,
-					'page', true, substr( get_locale(), 0, 2 ) );
+				$policy_page_id = apply_filters( 'wpml_object_id', $policy_page_id, 'page', true, substr( get_locale(), 0, 2 ) );
 
 				return get_permalink( $policy_page_id );
 			}
@@ -3065,7 +3058,7 @@ if ( ! class_exists( "cmplz_document" ) ) {
 				$date = date_i18n( get_option( 'date_format' ), time() );
 
 				$mpdf->SetHTMLHeader( $img );
-				$footer_text = sprintf( "%s $title $date",
+				$footer_text = cmplz_sprintf( "%s $title $date",
 					get_bloginfo( 'name' ) );
 
 				$mpdf->SetFooter( $footer_text );

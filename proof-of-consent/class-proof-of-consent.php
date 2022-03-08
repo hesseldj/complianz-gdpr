@@ -218,6 +218,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 		 */
 
 		public function cookie_statement_snapshots() {
+			ob_start();
 			include( cmplz_path . 'proof-of-consent/class-cookiestatement-snapshot-table.php' );
 			$snapshots_table = new cmplz_CookieStatement_Snapshots_Table();
 			$snapshots_table->prepare_items();
@@ -248,8 +249,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 					});
 				});
 			</script>
-			<div class="wrap">
-			<div id="cookie-policy-snapshots" class="wrap cookie-snapshot">
+			<div id="cookie-policy-snapshots" class="cookie-snapshot">
 				<form id="cmplz-cookiestatement-snapshot-generate" method="POST" action="">
 					<h1 class="wp-heading-inline"><?php _e( "Proof of consent", 'complianz-gdpr' ) ?></h1>
 					<?php echo wp_nonce_field( 'cmplz_generate_snapshot',
@@ -278,8 +278,13 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				</form>
 				<?php do_action( 'cmplz_after_cookiesnapshot_list' ); ?>
 			</div>
-			</div>
 			<?php
+			$content = ob_get_clean();
+			$args = array(
+					'page' => 'proof-of-consent',
+					'content' => $content,
+			);
+			echo cmplz_get_template('admin_wrap.php', $args );
 		}
 
 		/**
@@ -373,7 +378,7 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 				$settings_html = '<div><h1>' . __( 'Cookie consent settings', 'complianz-gdpr' ) . '</h1><ul>' . ( $settings_html ) . '</ul></div>';
 				$intro         = '<h1>' . __( "Proof of Consent",
 						"complianz-gdpr" ) . '</h1>
-                     <p>' . sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
+                     <p>' . cmplz_sprintf( __( "This document was generated to show efforts made to comply with privacy legislation.
                             This document will contain the Cookie Policy and the cookie consent settings to proof consent
                             for the time and region specified below. For more information about this document, please go
                             to %shttps://complianz.io/consent%s.",

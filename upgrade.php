@@ -6,6 +6,7 @@ add_action( 'init', 'cmplz_check_upgrade', 10, 2 );
  * Run an upgrade procedure if the version has changed
  */
 function cmplz_check_upgrade() {
+
 	$prev_version = get_option( 'cmplz-current-version', false );
 	if ( $prev_version === cmplz_version ) {
 		return;
@@ -663,9 +664,9 @@ function cmplz_check_upgrade() {
 		}
 		update_option( 'complianz_options_custom-scripts', $scripts );
 
-		$general_settings                      = get_option( 'complianz_options_general' );
+		$general_settings                      = get_option( 'complianz_options_settings' );
 		$general_settings['enable_migrate_js'] = true;
-		update_option( 'complianz_options_general', $general_settings );
+		update_option( 'complianz_options_settings', $general_settings );
 
 		$banners = cmplz_get_cookiebanners();
 		if ( $banners ) {
@@ -820,13 +821,21 @@ function cmplz_check_upgrade() {
 		}
 	}
 
-	$banners = cmplz_get_cookiebanners();
-	if ( $banners ) {
-		foreach ( $banners as $banner_item ) {
-			$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
-			$banner->save();
+	if ( $prev_version && version_compare( $prev_version, '6.0.4', '<' ) ) {
+		set_transient( 'cmplz_vendorlist_downloaded_once', true, HOUR_IN_SECONDS );
+	}
+
+	if ( $prev_version && version_compare( $prev_version, '6.1.0', '<' ) ) {
+		$banners = cmplz_get_cookiebanners();
+		if ( $banners ) {
+			foreach ( $banners as $banner_item ) {
+				$banner = new CMPLZ_COOKIEBANNER( $banner_item->ID );
+				$banner->legal_documents = true;
+				$banner->save();
+			}
 		}
 	}
+
 	//always clear warnings cache on update
 	delete_transient('complianz_warnings');
 	delete_transient('complianz_warnings_admin_notices');

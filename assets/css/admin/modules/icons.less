@@ -1,0 +1,51 @@
+/**
+icons
+ */
+.cmplz-icon {
+  &.cmplz-success {
+	color: var(--rsp-color-success);
+	svg {
+	  stroke:var(--rsp-color-success);
+	  fill:var(--rsp-color-success);
+	}
+	&.shortcode {
+	  color:#000;
+	  &.copied {
+		color:var(--rsp-color-success);
+	  }
+	}
+
+  }
+  &.cmplz-disabled {
+	color:var(--rsp-color-disabled);
+	svg {
+	  stroke:var(--rsp-color-disabled);
+	  fill:var(--rsp-color-disabled);
+	}
+  }
+
+  &:hover {
+	color: #000;
+  }
+
+  &.cmplz-bullet {
+	height: 11px;
+	width: 11px;
+	margin-top:3px;
+	&.cmplz-disabled {
+	  background-color: var(--rsp-color-disabled);
+	}
+
+	&.cmplz-completed  {
+	  background-color: var(--rsp-color-success);
+	}
+	&.cmplz-success  {
+	  background-color: var(--rsp-brand-primary);
+	}
+	&.cmplz-warning  {
+	  background-color: var(--rsp-color-warning);
+	}
+
+  }
+
+}
