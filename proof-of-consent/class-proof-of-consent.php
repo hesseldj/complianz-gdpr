@@ -17,25 +17,12 @@ if ( ! class_exists( "cmplz_proof_of_consent" ) ) {
 			}
 
 			add_action( 'admin_init', array( $this, 'force_snapshot_generation' ) );
-			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue'));
-
 		}
 
 		static function this() {
 			return self::$_this;
 		}
-
-		/**
-		 * Enqueue back-end assets
-		 * @param $hook
-		 */
-		public function admin_enqueue($hook){
-			if (!isset($_GET['page']) || $_GET['page'] !== 'cmplz-proof-of-consent' ) return;
-			$min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
-			wp_register_style('cmplz-posttypes', cmplz_url . "assets/css/posttypes$min.css", false, cmplz_version);
-			wp_enqueue_style('cmplz-posttypes');
-		}
-
+		
 		/**
 		 * Get start or end date timestamp
 		 * @param int    $year

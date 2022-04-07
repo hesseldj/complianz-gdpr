@@ -56,8 +56,8 @@
 .cmplz-grid .cmplz-grid-item .item-container {
   background-color: #fff;
   position: relative;
-  -webkit-box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
-          box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
+  -webkit-box-shadow: var(--rsp-box-shadow);
+          box-shadow: var(--rsp-box-shadow);
   width: 780px;
   height: 495px;
 }

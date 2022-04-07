@@ -19,7 +19,6 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 			add_action( 'admin_init', array( $this, 'update_db_check' ), 10 );
 			add_action( 'cmplz_admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'process_delete' ) );
-			add_action('admin_enqueue_scripts', array($this, 'admin_enqueue'));
 
 		}
 
@@ -207,17 +206,6 @@ if ( ! class_exists( "cmplz_DNSMPD" ) ) {
 					: '';
 				wp_redirect( admin_url( 'admin.php?page=cmplz_dnsmpd' . $paged ) );
 			}
-		}
-
-		/**
-		 * Enqueue back-end assets
-		 * @param $hook
-		 */
-		public function admin_enqueue($hook){
-			if (!isset($_GET['page']) || $_GET['page'] !== 'cmplz_dnsmpd' ) return;
-			$min = (defined('SCRIPT_DEBUG') && SCRIPT_DEBUG) ? '' : '.min';
-			wp_register_style('cmplz-posttypes', cmplz_url . "assets/css/posttypes$min.css", false, cmplz_version);
-			wp_enqueue_style('cmplz-posttypes');
 		}
 
 		/**

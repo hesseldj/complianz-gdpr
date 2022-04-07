@@ -571,7 +571,7 @@ if ( ! class_exists( "cmplz_wizard" ) ) {
                     if ( $active == 'active' ) {
                         $icon = cmplz_icon('arrow-right', 'success');
                     } else if ($this->required_fields_completed( $page, $step, $i )) {
-                    	$icon = cmplz_icon('check', 'success', '', 10);
+                    	$icon = cmplz_icon('check', 'success', '', 12);
                     }
 
                     $completed = ( $this->required_fields_completed( $page, $step, $i ) ) ? "cmplz-done" : "cmplz-to-do";

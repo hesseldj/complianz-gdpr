@@ -55,7 +55,7 @@
 
   .cmplz-wizard-menu {
     background-color: white;
-	box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
+	box-shadow: var(--rsp-box-shadow);
 	border-radius: var(--rsp-border-radius);
 
 	// sticky menu
@@ -70,7 +70,7 @@
 	  margin: var(--rsp-spacing-m) var(--rsp-spacing-l);
       .cmplz-wizard-progress-bar-value {
         height: 100%;
-        background: #61CE70;
+        background: var(--rsp-green);
 		border-radius: 4px;
       }
     }
@@ -78,10 +78,10 @@
     .cmplz-step {
       .cmplz-step-header {
 		&.incomplete a h2 {
-		  color: @grey;
+		  color: var(--rsp-text-color-inactive);
 		}
 		&.active a h2{
-		  color: @brand-primary;
+		  color: var(--rsp-wp-blue);
 		}
         text-decoration: none;
         a {
@@ -135,7 +135,7 @@
 		  color: @rsp-black ;
 		}
 		&.active a h3 {
-		  color: @brand-primary !important;
+		  color: var(--rsp-wp-blue);
 		}
 		&.active:hover a {
 		  background: white;
@@ -196,9 +196,6 @@
 
         .cmplz-field {
 		  grid-column-start: 1;
-		  .button {
-			margin-top:10px;
-		  }
 		  select {
 			font-size:13px;
 		  }
@@ -215,6 +212,7 @@
         align-items: center;
         grid-template-columns: 1fr auto;
 		border-radius: 0 0 var(--rsp-border-radius) var(--rsp-border-radius);
+		box-shadow: var(--rsp-box-shadow);
 
         .cmplz-buttons-container {
 		  display: flex;
@@ -512,6 +510,7 @@
 			border-radius: 0 0 var(--rsp-border-radius) var(--rsp-border-radius);
 			display: flex;
 			gap: var(--rsp-spacing-xs);
+			box-shadow: var(--rsp-box-shadow);
 		  }
 		}
 
@@ -535,7 +534,7 @@
 			  background-color: #fff;
 			  padding: @red-gap;
 			  margin:@green-gap;
-			  box-shadow: 0 0 5px 5px rgba(223,222,222,0.4);
+			  box-shadow: var(--rsp-box-shadow);
 			}
 		  }
 		  @media screen and (max-width: 960px) {
@@ -605,24 +604,24 @@
 	border-radius: 50%;
 	&.dashicons-before:before {
 	  font-size:18px;
-	  height:22px;
+	  height:18px;
 	}
 	&.cmplz-empty {
 	  visibility:hidden;
 	}
     &.cmplz-success {
-      color: #333;
+      color: var(--rsp-text-color);
       svg {
-        fill: #333;
-        stroke: #333;
+        fill: var(--rsp-text-color);
+        stroke: var(--rsp-text-color);
       }
     }
 
     &.cmplz-green {
-      color: #61ce70;
+      color: var(--rsp-green);
       svg {
-        fill: #61ce70;
-        stroke: #61ce70;
+        fill: var(--rsp-green);
+        stroke: var(--rsp-green);
       }
     }
 
@@ -635,10 +634,10 @@
     }
 
     &.cmplz-error {
-      color: #d7263d;
+      color: var(--rsp-red);
       svg {
-        fill: #d7263d;
-        stroke: #d7263d;
+        fill: var(--rsp-red);
+        stroke: var(--rsp-red);
       }
     }
 
@@ -651,7 +650,7 @@
     height: 12px;
     width: 12px;
     border-radius: 12px;
-    background-color: #61ce70;
+    background-color: var(--rsp-green);
   }
   .cmplz-circle-red {
     height: 12px;
@@ -686,8 +685,8 @@
       position: absolute;
       top: -2px;
       left: 0;
-      height: 22px;
-      width: 22px;
+      height: 20px;
+      width: 20px;
       border-radius: 5px;
       border: 1px solid @input-border-color;
     }
@@ -702,8 +701,8 @@
     /* Show the checkmark when checked */
     input:checked ~ .checkmark svg {
       display: block;
-      fill: @brand-primary;
-      stroke: @brand-primary;
+      fill: var(--rsp-wp-blue);
+      stroke: var(--rsp-wp-blue);
     }
 
     /* Style the checkmark/indicator */
@@ -779,7 +778,7 @@
     /* Show check icon when checked */
     input:checked ~ .radiobtn .cmplz-icon {
       display: block;
-      background-color: @brand-primary;
+      background-color: var(--rsp-wp-blue);;
     }
 
     /* Style the check icon */
@@ -801,7 +800,7 @@
       .radiobtn.disabled {
         background-color: #eee;
         .cmplz-icon {
-          background-color: lighten(@brand-primary, 25) !important;
+          background-color: var(--rsp-wp-blue-faded);
         }
       }
 
@@ -886,6 +885,9 @@
     min-width: 0;
   }
 }
+.cmplz-content-area .cmplz-section-content .cmplz-scroll .cmplz-multiple-field-button-footer .button.button-primary{
+  margin-top: var(--rsp-spacing-m);
+}
 
 .cmplz-hidden {
   display: none !important;
@@ -901,48 +903,31 @@
   //display: flex; // make use of Flexbox
   align-items: center; // does vertically center the desired content
   .cmplz-help-modal {
-	.cmplz-pointer;
-  	z-index: 1;
-	//position:absolute;
+	line-height: 1.5;
+	font-size: var(--rsp-fs-300);
+	margin: var(--rsp-spacing-xs) 0 0 var(--rsp-spacing-m);
+	padding: 10px 15px;
+	background-color: var(--rsp-blue-faded);
+	color: var(--rsp-text-color);
+	text-align: left;
 
 	&.cmplz-notice {
-	  background-color: @brand-primary;
-	  &:after {
-		border-right: 15px solid @brand-primary;
-	  }
-	  color: #fff;
-	  padding: @green-gap;
+	  background-color: var(--rsp-dark-blue-faded);
+	  padding: var(--rsp-spacing-s) var(--rsp-spacing-m);
 	  border-radius: var(--rsp-border-radius);
-	}
-
-	&.cmplz-success {
-	  background-color: white;
-	  color: #61ce70;
-	  border: none;
-	  padding: 0;
+	  box-shadow: var(--rsp-box-shadow);
 	}
 
 	&.cmplz-warning {
 	  &:after {
 		border-right: 15px solid #f8be2e;
 	  }
-	  color: #333333;
-	  background-color: #f8be2e;
-	  border-color: #f8be2e;
+	  color: var(--rsp-text-color);
+	  background-color: var(--rsp-yellow-faded);
+	  border-color: var(--rsp-yellow-faded);
 	}
-
-	margin: @small-margin 0 0 @green-gap;
-	padding: 10px 15px;
-	color: #fff;
-	background-color: @brand-primary;
-	text-align: left;
-
 	&:empty {
 	  background-color: #f1f1f1;
-	}
-
-	a {
-	  color: #333;
 	}
   }
 }
@@ -1042,41 +1027,40 @@ a.button.cmplz-open-modal {
   align-items: center;
 }
 
-.cmplz-panel + .cmplz-panel {
-  margin-top:10px;
-}
 .cmplz-panel{
+
   background: var(--rsp-white);
   padding: var(--rsp-spacing-m) var(--rsp-spacing-l);
 }
 .cmplz-slide-panel {
+  margin: 25px;
   color: #383d41;
-  background-color: #F2F2F2;
+  background-color: var(--rsp-grey-200);;
   padding: 10px 15px;
-  border-radius: var(--rsp-border-radius);
-  margin: 0;
-  border: 1px solid var(--rsp-input-border-color);
+  border-radius: var(--rsp-border-radius-s);
+  border: 1px solid #f2f2f2;
 
   .cmplz-panel-title {
 	display: flex;
 	align-items: center;
 	grid-gap: 0;
-	padding: 10px;
+	padding: 20px;
 	cursor: pointer;
 
 	.cmplz-custom-btns {
 	  display: flex;
+	  gap: 5px;
 	  align-content: center;
 	  justify-content: flex-end;
 	  margin-left:auto;
-
+	  span{
+		min-width: 15px;
+	  }
 	  svg {
 		width: 15px;
 		height: 15px;
 		padding-top: 1px;
 	  }
-	}
-	.cmplz-icon.cmplz-open {
 	}
   }
   .cmplz-panel-content {
@@ -1179,7 +1163,7 @@ a.button.cmplz-open-modal {
 	grid-column-start: 4;
 	cursor: pointer;
 	content: '';
-	background: url(../images/down.png) no-repeat;
+	background: url(../images/down.png) no-repeat center center;
 	transform: rotate(0deg);
 	-webkit-transition: all 0.5s ease;
 	-moz-transition: all 0.5s ease;
@@ -1466,7 +1450,7 @@ html .mceContentBody {
 
   .cmplz-progress-bar, .cmplz-sync-progress-bar {
 	height: 20px;
-	background-color: @brand-primary;
+	background-color: var(--rsp-wp-blue);
 	transition: width 0.5s;
 	-webkit-transition: width 0.5s;
 	font-weight: bold;
@@ -1532,9 +1516,6 @@ html .mceContentBody {
 	margin-top:@green-gap;
 	.cmplz-field label {
 	  margin-top:0;
-	}
-	.cmplz-switch {
-	  margin-right:@red-gap;
 	}
   }
 
@@ -1661,12 +1642,14 @@ html .mceContentBody {
 
   .cmplz-buttons-row-left {
     display: flex;
+	gap: 10px;
     align-items: center;
     height: auto;
-    input, select, div {
-      margin-right: 20px;
-    }
-    margin-bottom: 10px;
+	label, input{
+	  margin: 0;
+	  margin-top: 0;
+	  margin-right: 0;
+	}
   }
 
   button[name=cmplz_add_multiple],
@@ -1880,38 +1863,36 @@ input.current-page {
 
 .cmplz-status-info {
   display:flex;
+  align-items: center;
   > div {
 	padding: 10px 10px 10px 0;
-  }
-  .cmplz-license-notice-text {
-	margin-top:3px;
   }
   .cmplz-license-status-container {
 
 	.cmplz-license-status {
 	  display: block;
-	  min-width: 60px;
+	  min-width: 86px;
 	  text-align: center;
 	  border-radius: 15px;
-	  padding: 2px 8px 2px 8px;
-	  font-size: var(--rsp-fs-200);
+	  padding: 4px 8px;
+	  font-size: var(--rsp-fs-100);
 	  font-weight: 600;
 
 	  &.cmplz-premium {
-		background-color: @brand-primary;
+		background-color: var(--rsp-brand-primary);
 		color: white;
 	  }
 	  &.cmplz-success {
-		background-color: @color-success;
+		background-color: var(--rsp-green);
 		color: white;
 	  }
 
 	  &.cmplz-open {
-		background-color: @color-open;
+		background-color: var(--rsp-color-open);
 	  }
 
 	  &.cmplz-warning {
-		background-color: @color-warning;
+		background-color: var(--rsp-color-warning);
 		color: white;
 	  }
 	}
@@ -1988,7 +1969,7 @@ input.current-page {
   left: 50%;
   transform: translateX(-50%);
   text-align: left;
-  box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.2);
+  box-shadow: var(--rsp-box-shadow);
   svg{
 	margin: 2px 17px;
 	margin-right: 7px;

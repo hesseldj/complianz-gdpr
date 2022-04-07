@@ -2690,7 +2690,7 @@ if ( ! function_exists( 'cmplz_get_cookiebanners' ) ) {
 		$cookiebanners = wp_cache_get('cmplz_cookiebanners_'.$sql_string, 'complianz');
 		if ( !$cookiebanners ){
 			$cookiebanners = $wpdb->get_results( "select * from {$wpdb->prefix}cmplz_cookiebanners as cdb where 1=1 $sql" );
-			wp_cache_set('cmplz_cookiebanners_'.$sql_string, $cookiebanners, 'complianz');
+			wp_cache_set('cmplz_cookiebanners_'.$sql_string, $cookiebanners, 'complianz', HOUR_IN_SECONDS);
 		}
 
 		return $cookiebanners;
@@ -2837,15 +2837,14 @@ if ( ! function_exists( 'cmplz_sprintf' ) ) {
 		$args = func_get_args();
 		$count = substr_count($args[0], '%s');
 		$args_count = count($args) - 1;
-		if ($args_count === $count){
+		if ( $args_count === $count ){
 			return call_user_func_array('sprintf', $args);
-		}
-		error_log("Translation error detected");
-		error_log( print_r($args, true) );
-		if (is_admin()) {
-			return $args[0] . '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
 		} else {
-			return $args[0];
+			$output = $args[0];
+			if ( is_admin() ){
+				$output .=  '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
+			}
+			return $output;
 		}
 	}
 }
@@ -2861,10 +2860,14 @@ if ( ! function_exists( 'cmplz_printf' ) ) {
 		$args = func_get_args();
 		$count = substr_count($args[0], '%s');
 		$args_count = count($args) - 1;
-		if ($args_count === $count){
+		if ( $args_count === $count ){
 			echo call_user_func_array('sprintf', $args);
 		} else {
-			return $args[0] .  '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
+			$output = $args[0];
+			if ( is_admin() ){
+				$output .=  '&nbsp;<a target="_blank" href="https://complianz.io/translation-error-sprintf-printf-too-few-arguments">(Translation error)</a>';
+			}
+			echo $output;
 		}
 	}
 }

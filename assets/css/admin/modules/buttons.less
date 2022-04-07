@@ -5,25 +5,6 @@
 	letter-spacing: 0.5px;
 	transition: all 0.3s ease;
 
-	&.button-primary {
-	  background: var(--rsp-dark-blue);
-	  color: var(--rsp-text-color-white);
-	  border-color: var(--rsp-dark-blue);
-	  &:hover, &:focus, &:active {
-		box-shadow: 0 0 0 1px #fff, 0 0 0 3px var(--rsp-dark-blue);
-		background: var(--rsp-dark-blue);
-	  }
-	}
-
-	&.button-secondary, &.button-default {
-	  background: transparent;
-	  color: var(--rsp-dark-blue);
-	  border-color: var(--rsp-dark-blue);
-	  &:hover, &:focus, &:active {
-		box-shadow: 0 0 0 0px #fff, 0 0 0 1px var(--rsp-dark-blue);
-	  }
-	}
-
 	&.button-black {
 	  border: 0 solid transparent;
 	  background: var(--rsp-black);
@@ -33,7 +14,7 @@
 	  }
 	}
 
-	&.button-tertiary {
+	&.button-tertiary, &.button-red {
 	  border: 0 solid transparent;
 	  background: var(--rsp-red);
 	  color: var(--rsp-text-color-white);
@@ -42,10 +23,6 @@
 		background: var(--rsp-red);
 		color: var(--rsp-text-color-white);
 	  }
-	}
-
-	&:hover {
-	  opacity: 0.9;
 	}
   }
 }
