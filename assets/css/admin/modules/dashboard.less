@@ -205,8 +205,9 @@
   // Dashboard Documents
   .cmplz-document {
 	display: grid;
-	grid-template-columns: 1fr auto auto auto 1fr;
-	margin:10px 0;
+	grid-template-columns: 2fr auto auto auto 1fr;
+	margin: var(--rsp-spacing-xs) 0;
+	align-items: center;
 	.cmplz-grid-title{
 	  padding-top: var(--rsp-spacing-l);
 	}
@@ -235,6 +236,19 @@
 	  width: calc(100% - var(--rsp-spacing-xs));
 	  font-size:13px;
 	}
+	&.flags{
+	  display: flex;
+	  .cmplz-flags-container{
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--rsp-spacing-xxs);
+	  }
+	}
+  }
+  .cmplz-document-header{
+	margin-top: var(--rsp-spacing-m);
+	display: flex;
+	justify-content: space-between;
   }
 
   .button {

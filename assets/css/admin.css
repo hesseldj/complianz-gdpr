@@ -1224,9 +1224,12 @@ Admin notice
 .cmplz-dashboard .cmplz-document {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 1fr auto auto auto 1fr;
-  grid-template-columns: 1fr auto auto auto 1fr;
-  margin: 10px 0;
+  -ms-grid-columns: 2fr auto auto auto 1fr;
+  grid-template-columns: 2fr auto auto auto 1fr;
+  margin: var(--rsp-spacing-xs) 0;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .cmplz-dashboard .cmplz-document .cmplz-grid-title {
   padding-top: var(--rsp-spacing-l);
@@ -1255,6 +1258,28 @@ Admin notice
 .cmplz-dashboard .cmplz-document select {
   width: calc(100% - var(--rsp-spacing-xs));
   font-size: 13px;
+}
+.cmplz-dashboard .cmplz-document.flags {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.cmplz-dashboard .cmplz-document.flags .cmplz-flags-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  gap: var(--rsp-spacing-xxs);
+}
+.cmplz-dashboard .cmplz-document-header {
+  margin-top: var(--rsp-spacing-m);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 .cmplz-dashboard .button {
   min-width: 100px;
