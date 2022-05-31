@@ -526,6 +526,7 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 								$new = '<div>' . $new . '</div>';
 							}
 						}
+
 						$output = str_replace( $total_match, $new, $output );
 					}
 				}
@@ -734,6 +735,14 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 			return $script;
 		}
 
+		private function remove_src( $script ) {
+			$pattern
+				    = '/src=[\'"](http:\/\/|https:\/\/)([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-]?)[\'"]/i';
+			$script = preg_replace( $pattern, '', $script );
+
+			return $script;
+		}
+
 		/**
 		 * replace the src attribute with a placeholder of choice
 		 *
@@ -744,8 +753,8 @@ if ( ! class_exists( 'cmplz_cookie_blocker' ) ) {
 		 */
 
 		private function replace_src( $script, $new_src ) {
-
-			$pattern = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\wäöüÄÖÜß.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
+			$pattern
+				     = '/src=[\'"](http:\/\/|https:\/\/|\/\/)([\s\w.,@!?^=%&:\/~+#-;]*[\w@!?^=%&\/~+#-;]?)[\'"]/i';
 			$new_src = ' src="' . $new_src . '" ';
 			preg_match( $pattern, $script, $matches );
 			$script = preg_replace( $pattern, $new_src, $script );

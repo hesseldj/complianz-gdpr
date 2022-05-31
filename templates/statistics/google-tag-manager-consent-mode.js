@@ -13,9 +13,6 @@ dataLayer.push({
 });
 
 document.addEventListener("cmplz_fire_categories", function (e) {
-	function gtag(){
-		dataLayer.push(arguments);
-	}
 	var consentedCategories = e.detail.categories;
 	let preferences = 'denied';
 	let statistics = 'denied';

@@ -12,7 +12,6 @@ function cmplz_googlemaps_script( $tags ) {
 			'maps.google.com',
 			'google.com/maps',
 			'apis.google.com',
-			'maps.google.de',
 		),
 	);
 	return $tags;

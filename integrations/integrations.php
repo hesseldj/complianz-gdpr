@@ -11,8 +11,6 @@ function cmplz_enqueue_integrations_assets( $hook ) {
 
 	wp_register_script( ' cmplz-pagify', trailingslashit( cmplz_url ) . 'assets/pagify/pagify.min.js', array( "jquery" ), cmplz_version );
 	wp_enqueue_script( ' cmplz-pagify' );
-	wp_register_style( ' cmplz-pagify', trailingslashit( cmplz_url ) . 'assets/pagify/pagify.css', false, cmplz_version );
-	wp_enqueue_style( ' cmplz-pagify' );
 }
 add_action( 'admin_enqueue_scripts', 'cmplz_enqueue_integrations_assets' );
 
@@ -27,12 +25,6 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 	'advanced-ads' => array(
 			'constant_or_function' => 'ADVADS_VERSION',
 			'label'                => 'Advanced Ads',
-			'firstparty_marketing' => false,
-	),
-
-	'bb-powerpack' => array(
-			'constant_or_function' => 'BB_PowerPack',
-			'label'                => 'Beaver Builder Power Pack',
 			'firstparty_marketing' => false,
 	),
 
@@ -437,13 +429,7 @@ $cmplz_integrations_list = apply_filters( 'cmplz_integrations', array(
 		'label'                => 'SiteOrigin Widgets Bundle',
 		'firstparty_marketing' => false,
 	),
-	
-	'superfly-menu' => array(
-		'constant_or_function' => 'SFM_VERSION_KEY',
-		'label'                => 'Superfly Menu',
-		'firstparty_marketing' => false,
-	),
-	
+
 	'wp-store-locator' => array(
 		'constant_or_function' => 'WPSL_VERSION_NUM',
 		'label'                => 'WP Store Locator',

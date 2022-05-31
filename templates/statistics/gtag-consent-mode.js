@@ -1,8 +1,6 @@
 window['gtag_enable_tcf_support'] = {enable_tcf_support};
 window.dataLayer = window.dataLayer || [];
-function gtag(){
-	dataLayer.push(arguments);
-}
+function gtag(){dataLayer.push(arguments);}
 gtag('consent', 'default', {
 	'security_storage': "granted",
 	'functionality_storage': "granted",
@@ -12,9 +10,6 @@ gtag('consent', 'default', {
 });
 
 document.addEventListener("cmplz_fire_categories", function (e) {
-	function gtag(){
-		dataLayer.push(arguments);
-	}
 	var consentedCategories = e.detail.categories;
 	let preferences = 'denied';
 	let statistics = 'denied';
@@ -31,6 +26,7 @@ document.addEventListener("cmplz_fire_categories", function (e) {
 	if (cmplz_in_array( 'marketing', consentedCategories )) {
 		marketing = 'granted';
 	}
+
 	gtag('consent', 'update', {
 		'security_storage': "granted",
 		'functionality_storage': "granted",
@@ -41,7 +37,6 @@ document.addEventListener("cmplz_fire_categories", function (e) {
 });
 
 document.addEventListener("cmplz_cookie_warning_loaded", function (e) {
-
 	gtag('js', new Date());
 	gtag('config', '{G_code}', {
 		cookie_flags:'secure;samesite=none',

@@ -66,7 +66,7 @@ $this->pages['us']['cookie-statement']['document_elements'] = array(
 	),
 
 	array(
-		'content' => '[cmplz-dnsmpi-request]',
+		'content' => cmplz_do_not_sell_personal_data_form(),
 		'callback_condition' => 'cmplz_sells_personal_data',
 		'condition' => array(
 			'california' => 'yes',
