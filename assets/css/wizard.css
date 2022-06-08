@@ -1217,8 +1217,8 @@ a.button.cmplz-open-modal {
           transform: rotate(0deg);
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
-  height: 15px;
-  width: 15px;
+  height: 18px;
+  width: 18px;
   margin: 0 0 0 var(--rsp-spacing-xs);
 }
 .cmplz-slide-panel[open] .cmplz-icon.cmplz-open {
