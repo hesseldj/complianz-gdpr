@@ -1328,9 +1328,6 @@ Admin notice
 #complianz.wrap.cmplz-high-contrast button .cmplz-close-warning-x {
   color: var(--rsp-black);
 }
-#complianz.wrap.cmplz-high-contrast .cmplz-progress-status.cmplz-completed {
-  color: var(--rsp-black);
-}
 #complianz.wrap.cmplz-high-contrast .cmplz-step .cmplz-step-header.incomplete a h2 {
   color: var(--rsp-black);
 }
@@ -1367,6 +1364,7 @@ Admin notice
 }
 #complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-notice {
   background-color: var(--rsp-black);
+  color: var(--rsp-text-color-invert);
 }
 #complianz.wrap.cmplz-high-contrast .cmplz-help-warning-wrap .cmplz-help-modal.cmplz-notice:after {
   border-right: 15px solid var(--rsp-black);
